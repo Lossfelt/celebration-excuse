@@ -73,6 +73,23 @@ function nthWeekday(
   }
 }
 
+function weekdayOnOrAfter(
+  year: number,
+  month: number,
+  day: number,
+  weekday: number
+): { month: number; day: number } {
+  const date = new Date(year, month - 1, day);
+  const offset = (weekday - date.getDay() + 7) % 7;
+  date.setDate(day + offset);
+  return { month: date.getMonth() + 1, day: date.getDate() };
+}
+
+function dayOfYearToDate(year: number, dayOfYear: number): { month: number; day: number } {
+  const date = new Date(year, 0, dayOfYear);
+  return { month: date.getMonth() + 1, day: date.getDate() };
+}
+
 // ── Precomputed Islamic holidays (approximate, varies by moon sighting) ──
 // Eid al-Fitr (end of Ramadan) and Eid al-Adha
 const islamicHolidays: Record<number, { eidFitr: [number, number]; eidAdha: [number, number]; ramadanStart: [number, number] }> = {
@@ -156,8 +173,6 @@ export function getMovableHolidays(year: number): DatedHoliday[] {
   // ── Western Easter and derived holidays ──
   const easter = westernEaster(year);
   const derived: [number, string, string][] = [
-    [-47, "Fastelavn", "Karnevalssøndag med utkledd moro – 7 uker før påske"],
-    [-46, "Rosenmontag", "Tysk karnevalshøydepunkt med parader og kostymer"],
     [-2, "Langfredag", "Kristen helligdag – Jesu korsfestelse"],
     [0, "Første påskedag", "Kristen høytid – Jesu oppstandelse"],
     [1, "Andre påskedag", "Andre dag i påskefeiringen"],
@@ -175,13 +190,31 @@ export function getMovableHolidays(year: number): DatedHoliday[] {
   const palmSunday = addDays(easter, year, -7);
   holidays.push({ ...palmSunday, name: "Palmesøndag", description: "Kristen helligdag – Jesu inntog i Jerusalem", type: "religious", regions: ["Kristne land"] });
 
-  // Mardi Gras / Shrove Tuesday
+  // Carnival season around Lent
+  const fastelavn = addDays(easter, year, -49);
+  holidays.push({ ...fastelavn, name: "Fastelavn", description: "Fastelavnssøndag – nordisk karnevalstradisjon syv uker før påske", type: "cultural", regions: ["Norge", "Danmark", "Færøyene"] });
+
+  const rosenmontag = addDays(easter, year, -48);
+  holidays.push({ ...rosenmontag, name: "Rosenmontag", description: "Tysk karnevalshøydepunkt med parader og kostymer", type: "cultural", regions: ["Tyskland"] });
+
   const mardiGras = addDays(easter, year, -47);
-  holidays.push({ ...mardiGras, name: "Mardi Gras / Fettisdag", description: "Siste festdag før fastetiden – pannekaker og karneval!", type: "cultural", regions: ["USA (New Orleans)", "Frankrike", "Brasil"] });
+  holidays.push({ ...mardiGras, name: "Mardi Gras / Shrove Tuesday", description: "Siste festdag før fastetiden – karneval og festmåltider", type: "cultural", regions: ["USA", "Frankrike", "Storbritannia"] });
+  holidays.push({ ...mardiGras, name: "Fettisdagen", description: "Svensk og finsk semledag på fetetirsdag", type: "cultural", regions: ["Sverige", "Finland"] });
 
   // Ash Wednesday
   const ashWed = addDays(easter, year, -46);
   holidays.push({ ...ashWed, name: "Askeonsdag", description: "Start på fastetiden i kristendommen", type: "religious", regions: ["Kristne land"] });
+
+  // Napping Day: Monday after daylight saving time begins in the US
+  const nappingDay = nthWeekday(year, 3, 1, 2);
+  holidays.push({
+    ...nappingDay,
+    name: "Napping Day",
+    description: "Observed on the Monday after daylight saving time begins in the United States.",
+    type: "fun",
+    regions: ["USA", "Globalt"],
+    sources: [{ label: "Time and Date", url: "https://www.timeanddate.com/holidays/fun/napping-day" }],
+  });
 
   // ── Orthodox Easter ──
   const orthEaster = orthodoxEaster(year);
@@ -192,17 +225,51 @@ export function getMovableHolidays(year: number): DatedHoliday[] {
   const mlk = nthWeekday(year, 1, 1, 3);
   holidays.push({ ...mlk, name: "Martin Luther King Jr. Day", description: "Amerikansk helligdag til minne om borgerrettighetslederen", type: "national", regions: ["USA"] });
 
+  // Coming of Age Day (Japan): 2nd Monday of January
+  const seijin = nthWeekday(year, 1, 1, 2);
+  holidays.push({ ...seijin, name: "Seijin no Hi", description: "Japansk myndighetsdag / Coming of Age Day", type: "cultural", regions: ["Japan"] });
+
+  // Opposite Day: fixed January 25
+  holidays.push({
+    month: 1,
+    day: 25,
+    name: "Opposite Day",
+    description: "A novelty day for doing things the opposite way.",
+    type: "fun",
+    regions: ["Globalt"],
+    sources: [{ label: "Time and Date", url: "https://www.timeanddate.com/holidays/fun/opposite-day" }],
+  });
+
   // Presidents' Day: 3rd Monday of February
   const presDay = nthWeekday(year, 2, 1, 3);
   holidays.push({ ...presDay, name: "Presidents' Day", description: "Amerikansk helligdag for å hedre presidenter", type: "national", regions: ["USA"] });
 
-  // Mother's Day: 2nd Sunday of May (many countries)
-  const motherDay = nthWeekday(year, 5, 0, 2);
-  holidays.push({ ...motherDay, name: "Morsdag", description: "Dag for å feire mødre", type: "cultural", regions: ["USA", "Europa", "Globalt"] });
+  // Ice Cream for Breakfast Day: first Saturday of February
+  const iceCreamBreakfastDay = nthWeekday(year, 2, 6, 1);
+  holidays.push({
+    ...iceCreamBreakfastDay,
+    name: "Ice Cream for Breakfast Day",
+    description: "A playful observance held on the first Saturday in February.",
+    type: "fun",
+    regions: ["Globalt"],
+    sources: [{ label: "Time and Date", url: "https://www.timeanddate.com/holidays/fun/eat-ice-cream-for-breakfast-day" }],
+  });
 
-  // Father's Day: 3rd Sunday of June (many countries)
+  // Sámi Mother's Day / Norway: 2nd Sunday of February
+  const motherDayNo = nthWeekday(year, 2, 0, 2);
+  holidays.push({ ...motherDayNo, name: "Morsdag (Norge)", description: "Norsk morsdag – andre søndag i februar", type: "cultural", regions: ["Norge"] });
+
+  // World Whale Day: 3rd Sunday of February
+  const whaleDay = nthWeekday(year, 2, 0, 3);
+  holidays.push({ ...whaleDay, name: "World Whale Day", description: "Årlig markering for hvaler og marine økosystemer", type: "international", regions: ["Globalt"] });
+
+  // Mother's Day: 2nd Sunday of May in many countries
+  const motherDay = nthWeekday(year, 5, 0, 2);
+  holidays.push({ ...motherDay, name: "Mother's Day", description: "Morsdag i mange land som markerer dagen i mai", type: "cultural", regions: ["USA", "Canada", "Australia", "Tyskland"] });
+
+  // Father's Day: 3rd Sunday of June in many countries
   const fatherDay = nthWeekday(year, 6, 0, 3);
-  holidays.push({ ...fatherDay, name: "Farsdag", description: "Dag for å feire fedre", type: "cultural", regions: ["USA", "Storbritannia"] });
+  holidays.push({ ...fatherDay, name: "Father's Day", description: "Farsdag i mange land som markerer dagen i juni", type: "cultural", regions: ["USA", "Storbritannia", "Canada"] });
 
   // Norwegian Father's Day: 2nd Sunday of November
   const farsdagNo = nthWeekday(year, 11, 0, 2);
@@ -224,9 +291,51 @@ export function getMovableHolidays(year: number): DatedHoliday[] {
   const memorial = nthWeekday(year, 5, 1, -1);
   holidays.push({ ...memorial, name: "Memorial Day", description: "Amerikansk minnedag for falne soldater", type: "national", regions: ["USA"] });
 
-  // Oktoberfest start: Typically 3rd Saturday of September (approximation)
-  const oktoberfestStart = nthWeekday(year, 9, 6, 3);
+  // Oktoberfest start: first Saturday on or after September 15
+  const oktoberfestStart = weekdayOnOrAfter(year, 9, 15, 6);
   holidays.push({ ...oktoberfestStart, name: "Oktoberfest (start)", description: "Verdens største ølfestival i München starter!", type: "cultural", regions: ["Tyskland"] });
+
+  // World Migratory Bird Day: 2nd Saturday of May
+  const migratoryBirdDay = nthWeekday(year, 5, 6, 2);
+  holidays.push({ ...migratoryBirdDay, name: "World Migratory Bird Day", description: "Global dag for trekkfugler og bevaring av trekkruter", type: "international", regions: ["Globalt"] });
+
+  // Piano Day: 88th day of the year
+  const pianoDay = dayOfYearToDate(year, 88);
+  holidays.push({ ...pianoDay, name: "Piano Day", description: "Årlig pianodag lagt til dag 88 i året", type: "fun", regions: ["Globalt"] });
+
+  // International Beer Day: first Friday of August
+  const beerDay = nthWeekday(year, 8, 5, 1);
+  holidays.push({ ...beerDay, name: "International Beer Day", description: "Årlig markering av øl og bryggekultur", type: "fun", regions: ["Globalt"] });
+
+  // World Honey Bee Day: third Saturday of August
+  const honeyBeeDay = nthWeekday(year, 8, 6, 3);
+  holidays.push({
+    ...honeyBeeDay,
+    name: "World Honey Bee Day",
+    description: "Awareness day for honey bees, beekeeping, and pollinators.",
+    type: "international",
+    regions: ["Globalt"],
+    sources: [{ label: "National Today", url: "https://nationaltoday.com/world-honey-bee-day/" }],
+  });
+
+  // World Cleanup Day: fixed Sep 20 from 2024, previously 3rd Saturday in September
+  const cleanupDay = year >= 2024
+    ? { month: 9, day: 20 }
+    : nthWeekday(year, 9, 6, 3);
+  holidays.push({ ...cleanupDay, name: "World Cleanup Day", description: "Global ryddeaksjon for å redusere forsøpling", type: "international", regions: ["Globalt"] });
+
+  // World Statistics Day: every five years from 2010
+  if (year >= 2010 && (year - 2010) % 5 === 0) {
+    holidays.push({ month: 10, day: 20, name: "World Statistics Day", description: "FN-markering av statistikkens betydning for kunnskapsbaserte beslutninger", type: "international", regions: ["Globalt"] });
+  }
+
+  // Stress Awareness Day: first Wednesday of November
+  const stressAwarenessDay = nthWeekday(year, 11, 3, 1);
+  holidays.push({ ...stressAwarenessDay, name: "Stress Awareness Day", description: "Årlig bevisstgjøringsdag om stress og mental helse", type: "international", regions: ["Globalt"] });
+
+  // World Philosophy Day: third Thursday of November
+  const philosophyDay = nthWeekday(year, 11, 4, 3);
+  holidays.push({ ...philosophyDay, name: "World Philosophy Day", description: "UNESCO-dag for filosofisk refleksjon og kritisk tenkning", type: "international", regions: ["Globalt"] });
 
   // ── Islamic holidays ──
   const islamic = islamicHolidays[year];

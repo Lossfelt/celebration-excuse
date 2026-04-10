@@ -2,6 +2,7 @@ import type { Holiday } from "../types";
 import { fixedHolidays } from "./fixed";
 import { getMovableHolidaysForDate, getMovableHolidays } from "./movable";
 import type { DatedHoliday } from "./movable";
+import { curateFixedHoliday } from "./curation";
 
 /**
  * Get all holidays for a specific date.
@@ -14,7 +15,9 @@ export function getHolidaysForDate(date: Date): Holiday[] {
 
   const key = `${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-  const fixed = fixedHolidays[key] ?? [];
+  const fixed = (fixedHolidays[key] ?? [])
+    .map(curateFixedHoliday)
+    .filter((holiday): holiday is Holiday => holiday !== null);
   const movable = getMovableHolidaysForDate(year, month, day);
 
   return [...fixed, ...movable];
@@ -36,7 +39,10 @@ export function getAllHolidays(year: number): DatedHolidayEntry[] {
   for (const [key, holidays] of Object.entries(fixedHolidays)) {
     const [mm, dd] = key.split("-").map(Number);
     for (const h of holidays) {
-      result.push({ ...h, month: mm, day: dd });
+      const curated = curateFixedHoliday(h);
+      if (curated) {
+        result.push({ ...curated, month: mm, day: dd });
+      }
     }
   }
 

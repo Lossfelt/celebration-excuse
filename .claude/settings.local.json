@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "WebFetch(domain:www.un.org)",
+      "WebFetch(domain:www.unesco.org)",
+      "WebFetch(domain:www.timeanddate.com)",
+      "WebFetch(domain:www.who.int)",
+      "WebFetch(domain:www.nationaldaycalendar.com)",
+      "WebFetch(domain:www.daysoftheyear.com)"
+    ]
+  }
+}

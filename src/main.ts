@@ -2,7 +2,7 @@ import { getHolidaysForDate, getAllHolidays } from "./holidays";
 import type { DatedHolidayEntry } from "./holidays";
 import { getPersonalMilestones } from "./milestones";
 import { initConfetti, burstConfetti } from "./confetti";
-import type { Celebration } from "./types";
+import type { Celebration, Holiday } from "./types";
 import "./style.css";
 
 // ── State ──
@@ -39,6 +39,34 @@ function getTypeLabel(type: string, category: string): string {
 // ── Format a number with Norwegian locale ──
 function formatNumber(n: number): string {
   return n.toLocaleString("nb-NO");
+}
+
+function formatDateInputValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function parseDateInputValue(value: string): Date | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return null;
+
+  const [, yearStr, monthStr, dayStr] = match;
+  const year = Number(yearStr);
+  const month = Number(monthStr);
+  const day = Number(dayStr);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
 }
 
 // ── Update birthday input styling ──
@@ -86,10 +114,15 @@ function buildAgeSummary(): Celebration | null {
 }
 
 // ── Generate a lookup URL for a holiday ──
-function holidayUrl(holiday: { name: string; url?: string }): string {
-  if (holiday.url) return holiday.url;
+function getHolidayLink(holiday: Holiday): { url: string; label: string } {
+  if (holiday.sources?.[0]) {
+    return { url: holiday.sources[0].url, label: "Kilde ↗" };
+  }
+  if (holiday.url) {
+    return { url: holiday.url, label: "Les mer ↗" };
+  }
   const query = encodeURIComponent(holiday.name);
-  return `https://www.google.com/search?q=${query}`;
+  return { url: `https://www.google.com/search?q=${query}`, label: "Søk ↗" };
 }
 
 // ── Build celebrations ──
@@ -101,13 +134,15 @@ function buildCelebrations(): Celebration[] {
   const holidays = getHolidaysForDate(today);
   for (const h of holidays) {
     const regionText = h.regions?.length ? ` (${h.regions.join(", ")})` : "";
+    const link = getHolidayLink(h);
     result.push({
       name: h.name,
       description: h.description + regionText,
       category: "global",
       type: h.type,
       icon: getIcon(h.type, "global"),
-      url: holidayUrl(h),
+      url: link.url,
+      linkLabel: link.label,
     });
   }
 
@@ -167,7 +202,7 @@ function render() {
         <p class="card-description">${c.description}</p>
         <div class="card-footer">
           <span class="card-badge ${c.type}">${getTypeLabel(c.type, c.category)}</span>
-          ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener noreferrer" class="card-link" title="Søk etter ${c.name}">Les mer ↗</a>` : ""}
+          ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener noreferrer" class="card-link" title="Les mer om ${c.name}">${c.linkLabel ?? "Les mer ↗"}</a>` : ""}
         </div>
       </div>
     </article>
@@ -245,7 +280,7 @@ function renderBrowseList() {
 }
 
 function browseRow(h: DatedHolidayEntry, dateStr: string): string {
-  const url = holidayUrl(h);
+  const link = getHolidayLink(h);
   return `
     <div class="browse-row">
       <span class="browse-row-icon">${getIcon(h.type, "global")}</span>
@@ -253,7 +288,7 @@ function browseRow(h: DatedHolidayEntry, dateStr: string): string {
         <span class="browse-row-name">${h.name}</span>
         <span class="browse-row-date">${dateStr}</span>
       </div>
-      <a href="${url}" target="_blank" rel="noopener noreferrer" class="browse-row-link" title="Les mer">↗</a>
+      <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="browse-row-link" title="${link.label}">↗</a>
     </div>`;
 }
 
@@ -282,22 +317,28 @@ function init() {
   const filterTabs = document.querySelectorAll<HTMLButtonElement>(".filter-tab");
 
   // Set max date to today
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = formatDateInputValue(new Date());
   birthdayInput.max = todayStr;
 
   // Restore saved birthday
   const saved = localStorage.getItem("celebration-excuse-birthday");
   if (saved) {
-    birthdayInput.value = saved;
-    birthday = new Date(saved + "T00:00:00");
-    clearBtn.hidden = false;
+    const parsed = parseDateInputValue(saved);
+    if (parsed && parsed <= new Date()) {
+      birthdayInput.value = saved;
+      birthday = parsed;
+      clearBtn.hidden = false;
+    } else {
+      localStorage.removeItem("celebration-excuse-birthday");
+    }
   }
 
   // Birthday input
   birthdayInput.addEventListener("change", () => {
     const val = birthdayInput.value;
-    if (val) {
-      birthday = new Date(val + "T00:00:00");
+    const parsed = parseDateInputValue(val);
+    if (val && parsed) {
+      birthday = parsed;
       localStorage.setItem("celebration-excuse-birthday", val);
       clearBtn.hidden = false;
       celebrations = buildCelebrations();

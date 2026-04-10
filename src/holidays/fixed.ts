@@ -26,14 +26,15 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "01-05": [
     { name: "Twelfth Night", description: "Kvelden før Helligtrekonger, avsluttes juletiden", type: "religious", regions: ["Kristne land"] },
+    { name: "Armenian Christmas Eve", description: "Juleaften i den armenske apostoliske kirken", type: "religious", regions: ["Armenia", "Armenske kirker"] },
   ],
   "01-06": [
     { name: "Helligtrekongersdag", description: "Feiring av de tre vise menns besøk til Jesusbarnet", type: "religious", regions: ["Kristne land"] },
-    { name: "Armensk julaften", description: "Jul feires 6. januar i den armenske kirken", type: "religious", regions: ["Armenia"] },
+    { name: "Armenian Christmas", description: "Kristi fødsel og åpenbaring feires i den armenske apostoliske kirken", type: "religious", regions: ["Armenia", "Armenske kirker"] },
     { name: "Día de los Reyes", description: "Spansk helligtrekongersdag med gaver til barn", type: "cultural", regions: ["Spania", "Latin-Amerika"] },
   ],
   "01-07": [
-    { name: "Ortodoks jul", description: "Julaften feires etter den julianske kalenderen", type: "religious", regions: ["Russland", "Serbia", "Etiopia", "Egypt"] },
+    { name: "Orthodox Christmas Day", description: "Juledag i mange østkirker som følger den julianske datoen", type: "religious", regions: ["Ortodokse kirker"] },
     { name: "Genna", description: "Etiopisk julfeiring", type: "religious", regions: ["Etiopia"] },
   ],
   "01-08": [
@@ -59,9 +60,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Makar Sankranti", description: "Hinduistisk høstfestival – solen beveger seg inn i Steinbukken", type: "religious", regions: ["India"] },
     { name: "Pongal", description: "Tamilsk takkefest for ris-innhøsting", type: "cultural", regions: ["India (Tamil Nadu)"] },
     { name: "Verdens logikkdag", description: "UNESCO-dag for logikkens rolle i vitenskap og filosofi", type: "international" },
-  ],
-  "01-15": [
-    { name: "Seijin no Hi", description: "Myndighetsdagen i Japan for alle som fyller 20", type: "cultural", regions: ["Japan"] },
   ],
   "01-16": [
     { name: "Internasjonal krydderdag", description: "Feiring av krydder fra hele verden", type: "fun" },
@@ -120,7 +118,7 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   // ──────────────── FEBRUAR ────────────────
   "02-01": [
     { name: "Imbolc", description: "Keltisk vårfest og markering av St. Brigid", type: "cultural", regions: ["Irland", "Skottland"] },
-    { name: "Nasjonaldag i frihet", description: "Nasjonal frigjøringsdag", type: "national", regions: ["USA"] },
+    { name: "National Freedom Day", description: "Amerikansk minnedag for signeringen av resolusjonen som avskaffet slaveriet", type: "national", regions: ["USA"] },
   ],
   "02-02": [
     { name: "Kyndelsmesse", description: "Kristen høytid 40 dager etter jul – Jesu fremstilling i tempelet", type: "religious", regions: ["Kristne land"] },
@@ -137,10 +135,10 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "02-05": [
     { name: "Nutella-dagen", description: "Internasjonal dag for å feire Nutella", type: "fun" },
-    { name: "Sámi nasjonaldag", description: "Samenes nasjonaldag i Norge, Sverige, Finland og Russland", type: "national", regions: ["Norge", "Sverige", "Finland"] },
   ],
   "02-06": [
     { name: "Waitangi Day", description: "New Zealands nasjonaldag", type: "national", regions: ["New Zealand"] },
+    { name: "Sámi nasjonaldag", description: "Samenes nasjonaldag i Norge, Sverige, Finland og Russland", type: "national", regions: ["Norge", "Sverige", "Finland", "Russland"] },
   ],
   "02-07": [
     { name: "Spis iskrem til frokost-dagen", description: "Akkurat det det høres ut som!", type: "fun" },
@@ -167,7 +165,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "02-14": [
     { name: "Valentinsdag", description: "Kjærlighetens dag – feiring av romantisk kjærlighet", type: "cultural", regions: ["Globalt"] },
-    { name: "Fettisdagen", description: "Svensk tradisjon med semla-boller", type: "cultural", regions: ["Sverige"] },
   ],
   "02-15": [
     { name: "Singeldagen", description: "Feiring av singelliv og selvstendighet", type: "fun" },
@@ -177,9 +174,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "02-17": [
     { name: "Random Acts of Kindness Day", description: "Dag for tilfeldige vennlige handlinger", type: "fun" },
-  ],
-  "02-18": [
-    { name: "Verdens hvaldag", description: "Dag for bevissthet om hvaler og havpattedyr", type: "international" },
   ],
   "02-19": [
     { name: "Myntedag", description: "Feiring av mynte i alle former – te, godteri, mat", type: "fun" },
@@ -232,9 +226,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "03-04": [
     { name: "Verdens ingeniørdag", description: "FN-dag for å feire ingeniørers bidrag", type: "international" },
-  ],
-  "03-05": [
-    { name: "Internasjonal nedrustningsdag", description: "FN-dag for nedrustning og ikke-spredning", type: "international" },
   ],
   "03-06": [
     { name: "Tannlegedagen", description: "Dag for å verdsette tannhelse og tannleger", type: "fun" },
@@ -316,9 +307,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   "03-28": [
     { name: "Mat-på-pinne-dagen", description: "Feiring av all mat som serveres på pinne", type: "fun" },
   ],
-  "03-29": [
-    { name: "Piano-dagen", description: "Dag for å feire pianomusikk (dag 88 i året = 88 tangenter)", type: "fun" },
-  ],
   "03-30": [
     { name: "Internasjonal nullavfallsdag", description: "FN-dag for å fremme nullavfall", type: "international" },
   ],
@@ -363,7 +351,7 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Kjæledyrdagen", description: "Dag for å sette pris på kjæledyrene våre", type: "fun" },
   ],
   "04-12": [
-    { name: "Verdens romfartsdag", description: "FN-dag – Juri Gagarin ble første menneske i rommet (1961)", type: "international" },
+    { name: "International Day of Human Space Flight", description: "FN-dag til minne om Yuri Gagarins romferd i 1961", type: "international" },
     { name: "Yuris natt", description: "Feiring av Gagarins romferd og den første Space Shuttle-flygningen", type: "fun" },
   ],
   "04-13": [
@@ -509,10 +497,7 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Ingen diettdag", description: "Internasjonal dag for kroppspositivitet", type: "fun" },
   ],
   "05-07": [
-    { name: "Verdens atletikkdag", description: "Internasjonal dag for friidrett", type: "international" },
-  ],
-  "05-10": [
-    { name: "Verdens dag for trekkfugler", description: "FN-dag for bevaring av trekkfugler", type: "international" },
+    { name: "Kids' Athletics Day", description: "World Athletics-dag for å inspirere barn og unge til friidrett", type: "international" },
   ],
   "05-11": [
     { name: "Spis hva du vil-dagen", description: "En dag uten kostholdsregler!", type: "fun" },
@@ -525,9 +510,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "05-19": [
     { name: "Verdens dag for fair play", description: "FN-dag for fair play i idrett", type: "international" },
-  ],
-  "05-24": [
-    { name: "Verdens schildpadde-dag", description: "Dag for å beskytte skilpadder", type: "fun" },
   ],
   "05-26": [
     { name: "Verdens dag for linser", description: "Feiring av linser og belgfrukter", type: "fun" },
@@ -605,7 +587,7 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Saint-Jean-Baptiste", description: "Quebecs nasjonaldag", type: "national", regions: ["Canada (Quebec)"] },
   ],
   "06-25": [
-    { name: "Sjømannsdag", description: "Internasjonal dag for å hedre sjøfolk", type: "international" },
+    { name: "Day of the Seafarer", description: "FN-dag for å anerkjenne sjøfolks bidrag til verdenshandelen", type: "international" },
   ],
   "06-26": [
     { name: "Internasjonal dag mot narkotika", description: "FN-dag mot narkotikamisbruk", type: "international" },
@@ -752,9 +734,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Sveits' nasjonaldag", description: "Sveitsisk forbundsdag", type: "national", regions: ["Sveits"] },
     { name: "Yorkshire Day", description: "Feiring av Yorkshire i England", type: "cultural", regions: ["England"] },
   ],
-  "08-05": [
-    { name: "Verdens øldag", description: "Internasjonal dag for å feire øl", type: "fun" },
-  ],
   "08-06": [
     { name: "Hiroshima-minnedagen", description: "Minne om atombomben over Hiroshima (1945)", type: "international" },
   ],
@@ -780,10 +759,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "08-04": [
     { name: "Sjokoladebrikkedagen", description: "Dag for å feire chocolate chip cookies", type: "fun" },
-  ],
-  "08-07": [
-    { name: "Internasjonal øldag", description: "Feiring av øl og bryggekultur verden over", type: "fun" },
-    { name: "Fyrtårndagen", description: "Feiring av fyrtårn og maritim sikkerhet", type: "fun" },
   ],
   "08-12": [
     { name: "Internasjonal ungdomsdag", description: "FN-dag for ungdom", type: "international" },
@@ -895,7 +870,7 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "09-22": [
     { name: "Høstjevndøgn", description: "Dag og natt er like lange – høsten begynner", type: "cultural" },
-    { name: "Bilens dag", description: "Verdens bilfrie dag", type: "international" },
+    { name: "World Car Free Day", description: "Internasjonal dag for bilfrie gater og bærekraftig transport", type: "international" },
     { name: "Hobbit-dagen", description: "Feiring av Bilbo og Frodo Baggins' bursdag (Tolkien)", type: "fun" },
   ],
   "09-23": [
@@ -935,13 +910,10 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Internasjonal dag for huler og karst", description: "UNESCO-dag for bevaring av huleøkosystemer", type: "international" },
   ],
   "09-14": [
-    { name: "Internasjonal dag for korsfesting", description: "Kristen helligdag", type: "religious", regions: ["Kristne land"] },
+    { name: "Exaltation of the Holy Cross", description: "Kristen festdag for korset", type: "religious", regions: ["Kristne land"] },
   ],
   "09-17": [
     { name: "Verdens pasientsikkerhetsdag", description: "WHO-dag for trygghet i helsevesenet", type: "international" },
-  ],
-  "09-20": [
-    { name: "Verdens oppryddingsdag", description: "FN-dag for global oppryddingsaksjon", type: "international" },
   ],
   "09-24": [
     { name: "Tegnsettingsdagen", description: "Riktig bruk av komma, punktum og semikolon!", type: "fun" },
@@ -1010,14 +982,12 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   "10-17": [
     { name: "Internasjonal dag for bekjempelse av fattigdom", description: "FN-dag mot fattigdom", type: "international" },
   ],
-  "10-20": [
-    { name: "Verdens statistikkdag", description: "FN-dag for statistikk", type: "international" },
-  ],
   "10-24": [
     { name: "FN-dagen", description: "FNs fødselsdag – FN-pakten trådte i kraft (1945)", type: "international" },
     { name: "Verdens poliodag", description: "Dag for å bekjempe polio", type: "international" },
   ],
   "10-25": [
+    { name: "World Opera Day", description: "Internasjonal markering av opera og scenekunst", type: "cultural" },
     { name: "World Pasta Day", description: "Internasjonal pastadag", type: "fun" },
   ],
   "10-26": [
@@ -1088,7 +1058,8 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Verdens vitenskapsdag", description: "FN-dag for vitenskap for fred og utvikling", type: "international" },
   ],
   "11-11": [
-    { name: "Veteranenes dag", description: "Dag for å hedre veteraner", type: "national", regions: ["USA", "Canada", "Storbritannia", "Frankrike"] },
+    { name: "Veterans Day", description: "Amerikansk dag for å hedre militære veteraner", type: "national", regions: ["USA"] },
+    { name: "Remembrance Day / Armistice Day", description: "Minnemarkering for falne i første og senere kriger", type: "international", regions: ["Canada", "Storbritannia", "Frankrike", "Samveldeland"] },
     { name: "Polens uavhengighetsdag", description: "Polsk nasjonaldag", type: "national", regions: ["Polen"] },
     { name: "Singles' Day", description: "Kinesisk dag for single – verdens største shoppingdag", type: "fun", regions: ["Kina"] },
     { name: "Pepero Day", description: "Koreansk dag med sjokoladepinner", type: "fun", regions: ["Sør-Korea"] },
@@ -1132,9 +1103,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   "11-06": [
     { name: "Saksofondagen", description: "Feiring av Adolphe Sax' fødselsdag og saksofonen", type: "fun" },
   ],
-  "11-07": [
-    { name: "Internasjonal stressbevisstgjøringsdag", description: "Dag for bevissthet om stress og stressmestring", type: "international" },
-  ],
   "11-08": [
     { name: "Tungetvisteren-dagen", description: "Ibansenansen bansenansen, kan du si det fort?", type: "fun" },
   ],
@@ -1147,9 +1115,6 @@ export const fixedHolidays: Record<string, Holiday[]> = {
   ],
   "11-18": [
     { name: "Internasjonal dag for islamsk kunst", description: "UNESCO-dag for å feire islamsk kunst", type: "international" },
-  ],
-  "11-22": [
-    { name: "Verdens filosofidag", description: "UNESCO-dag for filosofisk refleksjon", type: "international" },
   ],
   "11-23": [
     { name: "Kinrō Kansha no Hi", description: "Japans dag for takknemlighet for arbeid", type: "national", regions: ["Japan"] },
@@ -1189,13 +1154,13 @@ export const fixedHolidays: Record<string, Holiday[]> = {
     { name: "Internasjonal dag for funksjonshemmede", description: "FN-dag for funksjonshemmedes rettigheter", type: "international" },
   ],
   "12-05": [
-    { name: "Verdens jorddag", description: "FN-dag for bærekraftig jordbruk", type: "international" },
+    { name: "World Soil Day", description: "FN-dag for sunn jord og jordforvaltning", type: "international" },
     { name: "Sinterklaas", description: "Nederlandsk julegave-tradisjon", type: "cultural", regions: ["Nederland", "Belgia"] },
     { name: "Thailands fardag / nasjonaldag", description: "Thailands nasjonaldag og kongens fødselsdag", type: "national", regions: ["Thailand"] },
   ],
   "12-06": [
     { name: "Finlands uavhengighetsdag", description: "Finsk nasjonaldag (1917)", type: "national", regions: ["Finland"] },
-    { name: "Mikkelsdagen (Nikolaus)", description: "St. Nikolaus-dag – barn får godteri i skoene", type: "cultural", regions: ["Tyskland", "Østerrike", "Sveits"] },
+    { name: "St. Nicholas Day", description: "Tradisjonell Nikolaus-feiring med gaver i skoene", type: "cultural", regions: ["Tyskland", "Østerrike", "Sveits", "Nederland", "Belgia"] },
   ],
   "12-07": [
     { name: "Internasjonal dag for sivil luftfart", description: "FN-dag for sivil luftfart", type: "international" },

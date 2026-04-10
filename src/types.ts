@@ -1,9 +1,15 @@
+export interface HolidaySource {
+  label: string;
+  url: string;
+}
+
 export interface Holiday {
   name: string;
   description: string;
   type: "religious" | "national" | "cultural" | "international" | "fun";
   regions?: string[];
   url?: string;
+  sources?: HolidaySource[];
 }
 
 export interface PersonalMilestone {
@@ -20,4 +26,5 @@ export interface Celebration {
   type: string;
   icon: string;
   url?: string;
+  linkLabel?: string;
 }
