@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Celebration Excuse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="confetti-canvas"></canvas>
+
+      <header class="hero">
+        <div class="balloons" aria-hidden="true">
+          <div class="balloon balloon-1">🎈</div>
+          <div class="balloon balloon-2">🎈</div>
+          <div class="balloon balloon-3">🎈</div>
+          <div class="balloon balloon-4">🎈</div>
+          <div class="balloon balloon-5">🎈</div>
+        </div>
+        <h1 class="title">Celebration Excuse</h1>
+        <p class="subtitle">Finn en unnskyldning for å feire i dag!</p>
+      </header>
+
+      <main>
+        <section class="birthday-input-section">
+          <label for="birthday-input" class="input-label">
+            Når er du født?
+          </label>
+          <div class="input-row">
+            <input
+              type="date"
+              id="birthday-input"
+              class="birthday-input"
+              max=""
+            />
+            <button id="clear-birthday" class="clear-btn" title="Fjern fødselsdato" hidden>
+              ✕
+            </button>
+          </div>
+        </section>
+
+        <section class="filter-section">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Alle</button>
+            <button class="filter-tab" data-filter="personal">
+              🎂 Personlige
+            </button>
+            <button class="filter-tab" data-filter="global">
+              🌍 Globale
+            </button>
+          </div>
+        </section>
+
+        <section id="results" class="results">
+          <div id="no-results" class="no-results" hidden>
+            <p class="no-results-emoji">🤔</p>
+            <p>Ingen feiringer funnet med dette filteret.</p>
+          </div>
+          <div id="celebration-list" class="celebration-list"></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>🎉 Det finnes alltid en grunn til å feire!</p>
+        <a href="#" id="browse-all-link" class="browse-all-link">Se alle høytider i databasen</a>
+      </footer>
+    </div>
+
+    <!-- All-holidays overlay -->
+    <div id="browse-overlay" class="browse-overlay">
+      <div class="browse-panel">
+        <header class="browse-header">
+          <h2 class="browse-title">Alle høytider</h2>
+          <button id="browse-close" class="browse-close" title="Lukk">✕</button>
+        </header>
+        <div class="browse-controls">
+          <div class="browse-sort-tabs">
+            <button class="browse-tab active" data-sort="date">Dato</button>
+            <button class="browse-tab" data-sort="alpha">A–Å</button>
+            <button class="browse-tab" data-sort="type">Tema</button>
+          </div>
+          <span id="browse-count" class="browse-count"></span>
+        </div>
+        <div id="browse-list" class="browse-list"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
