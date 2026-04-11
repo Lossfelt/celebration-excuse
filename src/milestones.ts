@@ -227,7 +227,7 @@ function addRoundTodayMilestones(
     addTodayMilestone(
       store,
       `${unitName}:${currentWholeUnits}`,
-      `${formatNumber(currentWholeUnits)} ${unitName} gammel i dag!`,
+      `${formatNumber(currentWholeUnits)} ${unitName}`,
       `Du passerer ${formatNumber(currentWholeUnits)} ${unitName} en gang i løpet av dagen.`,
       currentWholeUnits,
       unitName,
@@ -240,7 +240,7 @@ function addRoundTodayMilestones(
     addTodayMilestone(
       store,
       `${unitName}:${target}`,
-      `${formatBigInt(target)} ${unitName} gammel i dag!`,
+      `${formatBigInt(target)} ${unitName}`,
       `Du blir ${formatBigInt(target)} ${unitName} gammel en gang i løpet av dagen, avhengig av når på bursdagen du ble født.`,
       target,
       unitName,
@@ -256,9 +256,9 @@ function addProgressMilestones(
 ) {
   const progressRange = getBirthdayProgressRangeToday(birthday, today);
   const checkpoints = [
-    { numerator: 1n, denominator: 4n, label: "25 %" },
-    { numerator: 1n, denominator: 2n, label: "50 %" },
-    { numerator: 3n, denominator: 4n, label: "75 %" },
+    { numerator: 1n, denominator: 4n, label: "25 %", name: "Kvart til neste bursdag" },
+    { numerator: 1n, denominator: 2n, label: "50 %", name: "Halvveis til neste bursdag" },
+    { numerator: 3n, denominator: 4n, label: "75 %", name: "Tre kvart til neste bursdag" },
   ];
 
   for (const checkpoint of checkpoints) {
@@ -268,7 +268,7 @@ function addProgressMilestones(
       addTodayMilestone(
         store,
         `progress:${checkpoint.label}`,
-        `${checkpoint.label} mot neste bursdag i dag!`,
+        checkpoint.name,
         `Du passerer ${checkpoint.label} av veien fra forrige til neste bursdag en gang i løpet av dagen.`,
         Number(checkpoint.numerator * 100n / checkpoint.denominator),
         "bursdagsprogresjon",
@@ -361,7 +361,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 10,
       unit: "Hijri-år",
       priority: 53,
-      name: (count: number) => `${count} Hijri-år gammel i dag!`,
+      name: (_count: number) => "Hijri-år-dag",
       description: (count: number) =>
         `Du passerer ${count} år regnet med et hijri/lunarår på 354 dager en gang i løpet av dagen.`,
     },
@@ -371,7 +371,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 10,
       unit: "romerske republikkår",
       priority: 52,
-      name: (count: number) => `${count} romerske republikkår gammel i dag!`,
+      name: (_count: number) => "Romersk republikkår-dag",
       description: (count: number) =>
         `Du passerer ${count} år regnet med et romersk republikkår på 355 dager en gang i løpet av dagen.`,
     },
@@ -381,7 +381,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 10,
       unit: "tun",
       priority: 51,
-      name: (count: number) => `${count} maya-tun gammel i dag!`,
+      name: (_count: number) => "Maya-tun-dag",
       description: (count: number) =>
         `Du passerer ${count} tun i dag. Ett tun i Maya Long Count er 360 dager.`,
     },
@@ -391,7 +391,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 10,
       unit: "Tzolk'in-sykluser",
       priority: 50,
-      name: (count: number) => `${count} Tzolk'in-sykluser gammel i dag!`,
+      name: (_count: number) => "Tzolk'in-syklus-dag",
       description: (count: number) =>
         `Du passerer ${count} Tzolk'in-sykluser i dag. Hver syklus er 260 dager.`,
     },
@@ -401,7 +401,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 100,
       unit: "franske revolusjonsdekader",
       priority: 49,
-      name: (count: number) => `${count} franske revolusjonsdekader gammel i dag!`,
+      name: (_count: number) => "Fransk revolusjonsdekade-dag",
       description: (count: number) =>
         `Du passerer ${count} franske kalender-dekader i dag. En décade i den franske revolusjonskalenderen er 10 dager.`,
     },
@@ -411,7 +411,7 @@ function addAlternativeCalendarMilestones(
       minimumCount: 1,
       unit: "katun",
       priority: 48,
-      name: (count: number) => `${count} maya-katun gammel i dag!`,
+      name: (_count: number) => "Maya-katun-dag",
       description: (count: number) =>
         `Du passerer ${count} katun i dag. Ett katun i Maya Long Count er 7 200 dager.`,
     },
@@ -493,7 +493,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `half-birthday:${years + 0.5}`,
-      "Halvbursdagen din!",
+      "Halvbursdag",
       `Du er nøyaktig ${years}.5 år gammel i dag.`,
       years + 0.5,
       "år",
@@ -568,7 +568,7 @@ export function getPersonalMilestones(
       addTodayMilestone(
         milestoneMap,
         `${unit}:${target}`,
-        `${formatBigInt(target)} ${unit} gammel i dag!`,
+        `${formatBigInt(target)} ${unit}`,
         `Du blir ${formatBigInt(target)} ${unit} gammel en gang i løpet av dagen, avhengig av når på bursdagen du ble født.`,
         target,
         unit,
@@ -581,7 +581,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `power-of-two-days:${totalDays}`,
-      `2^${Math.log2(totalDays)} dager gammel i dag!`,
+      "Potens-av-2-dag",
       `Du passerer ${formatNumber(totalDays)} dager i dag, og tallet er en potens av 2.`,
       totalDays,
       "dager (potens av 2)",
@@ -593,7 +593,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `fibonacci-days:${totalDays}`,
-      `Fibonacci-dag: ${formatNumber(totalDays)} dager i dag!`,
+      "Fibonacci-dag",
       `Du passerer ${formatNumber(totalDays)} dager i dag, og tallet er et Fibonacci-tall.`,
       totalDays,
       "dager (Fibonacci)",
@@ -606,7 +606,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `square-days:${totalDays}`,
-      `${sqrt}² dager gammel i dag!`,
+      "Kvadrattall-dag",
       `Du passerer ${formatNumber(totalDays)} dager i dag, og ${sqrt} × ${sqrt} = ${formatNumber(totalDays)}.`,
       totalDays,
       "dager (kvadrattall)",
@@ -618,7 +618,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `palindrome-days:${totalDays}`,
-      `Palindrom-dag: ${formatNumber(totalDays)} dager i dag!`,
+      "Palindrom-dag",
       `Du passerer ${formatNumber(totalDays)} dager i dag, og tallet leses likt begge veier.`,
       totalDays,
       "dager (palindrom)",
@@ -630,7 +630,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `repdigit-days:${totalDays}`,
-      `Repdigit-dag: ${formatNumber(totalDays)} dager i dag!`,
+      "Repdigit-dag",
       `Du passerer ${formatNumber(totalDays)} dager i dag, og alle sifrene er like.`,
       totalDays,
       "dager (repdigit)",
@@ -642,7 +642,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `months:${months}`,
-      `${formatNumber(months)} måneder gammel i dag!`,
+      `${formatNumber(months)} måneder`,
       `Du passerer ${formatNumber(months)} måneder en gang i løpet av dagen.`,
       months,
       "måneder",
@@ -664,7 +664,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "palindrome",
         predicate: isPalindrome,
-        name: (value) => `Palindrom-sekunder i dag: ${formatNumber(value)}!`,
+        name: () => "Palindrom-sekund-dag",
         description: (value) => `Du passerer ${formatNumber(value)} sekunder i dag, og tallet leses likt begge veier.`,
         unit: "sekunder (palindrom)",
         priority: 59,
@@ -672,7 +672,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "repdigit",
         predicate: isRepdigit,
-        name: (value) => `Repdigit-sekunder i dag: ${formatNumber(value)}!`,
+        name: () => "Repdigit-sekund-dag",
         description: (value) => `Du passerer ${formatNumber(value)} sekunder i dag, og alle sifrene er like.`,
         unit: "sekunder (repdigit)",
         priority: 58,
@@ -680,7 +680,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "fibonacci",
         predicate: isFibonacciNumber,
-        name: (value) => `Fibonacci-sekunder i dag: ${formatNumber(value)}!`,
+        name: () => "Fibonacci-sekund-dag",
         description: (value) => `Du passerer ${formatNumber(value)} sekunder i dag, og tallet er et Fibonacci-tall.`,
         unit: "sekunder (Fibonacci)",
         priority: 57,
@@ -699,7 +699,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "palindrome",
         predicate: isPalindrome,
-        name: (value) => `Palindrom-minutter i dag: ${formatNumber(value)}!`,
+        name: () => "Palindrom-minutt-dag",
         description: (value) => `Du passerer ${formatNumber(value)} minutter i dag, og tallet leses likt begge veier.`,
         unit: "minutter (palindrom)",
         priority: 56,
@@ -707,7 +707,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "repdigit",
         predicate: isRepdigit,
-        name: (value) => `Repdigit-minutter i dag: ${formatNumber(value)}!`,
+        name: () => "Repdigit-minutt-dag",
         description: (value) => `Du passerer ${formatNumber(value)} minutter i dag, og alle sifrene er like.`,
         unit: "minutter (repdigit)",
         priority: 55,
@@ -715,7 +715,7 @@ export function getPersonalMilestones(
       {
         idPrefix: "fibonacci",
         predicate: isFibonacciNumber,
-        name: (value) => `Fibonacci-minutter i dag: ${formatNumber(value)}!`,
+        name: () => "Fibonacci-minutt-dag",
         description: (value) => `Du passerer ${formatNumber(value)} minutter i dag, og tallet er et Fibonacci-tall.`,
         unit: "minutter (Fibonacci)",
         priority: 54,
@@ -731,7 +731,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       "sekunder:1000000000",
-      "Gigasecond-dagen din!",
+      "Gigasekund-dag",
       "Du passerer 1 000 000 000 sekunder gammel en gang i løpet av dagen.",
       1_000_000_000,
       "sekunder",
@@ -748,7 +748,7 @@ export function getPersonalMilestones(
     "moon-cycles",
     (count) => ({
       idSuffix: String(count),
-      name: `${count} månesykluser siden du ble født!`,
+      name: "Månesyklus-dag",
       description: `Du fullfører ${count} synodiske månesykluser en gang i løpet av dagen.`,
       value: count,
       unit: "månesykluser",
@@ -765,7 +765,7 @@ export function getPersonalMilestones(
     "mars-sols",
     (count) => ({
       idSuffix: String(count),
-      name: `${count} Mars-sols gammel i dag!`,
+      name: "Mars-sol-dag",
       description: `Du passerer ${count} marsdøgn (sols) en gang i løpet av dagen.`,
       value: count,
       unit: "Mars-sols",
@@ -791,7 +791,7 @@ export function getPersonalMilestones(
       addTodayMilestone(
         milestoneMap,
         `planet-year:${planet.name}:${rounded}`,
-        `${rounded} ${planet.name}-år gammel i dag! ${planet.emoji}`,
+        `${planet.name}-år-dag ${planet.emoji}`,
         `Du passerer ${rounded} ${planet.name}-år i dag (ett ${planet.name}-år = ${planet.days} jorddager).`,
         rounded,
         `${planet.name}-år`,
@@ -808,7 +808,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `golden-birthday:${years}`,
-      "Gullbursdagen din!",
+      "Gullbursdag",
       `Du fyller ${years} år på den ${birthday.getDate()}. – din gullbursdag!`,
       years,
       "gullbursdag",
@@ -854,7 +854,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `birth-code-days:${totalDays}`,
-      "Fødselsdatoen din skjuler seg i dagtallet i dag!",
+      "Fødselsdato-kode-dag",
       `Tallet du passerer i dag (${formatNumber(totalDays)} dager) inneholder ${birthMonthDay}, altså dag og måned fra fødselsdatoen din.`,
       totalDays,
       "dager (fødselsdato-kode)",
@@ -866,7 +866,7 @@ export function getPersonalMilestones(
     addTodayMilestone(
       milestoneMap,
       `birth-code-seconds:${totalSeconds}`,
-      "Fødselsdatoen din skjuler seg i sekundtallet i dag!",
+      "Fødselsdato-kode-sekund-dag",
       `Sekundtallet du passerer i dag (${formatNumber(totalSeconds)}) inneholder ${birthMonthDay}.`,
       totalSeconds,
       "sekunder (fødselsdato-kode)",

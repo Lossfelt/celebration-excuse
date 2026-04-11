@@ -27,91 +27,91 @@ assertIncludesMilestone(
 assertIncludesMilestone(
   new Date(1980, 0, 1),
   new Date(2026, 3, 2, 12, 0, 0),
-  "25 % mot neste bursdag i dag!",
+  "Kvart til neste bursdag",
 );
 
 assertIncludesMilestone(
   new Date(1990, 0, 1),
   new Date(2021, 8, 9, 12, 0, 0),
-  "Gigasecond-dagen din!",
+  "Gigasekund-dag",
 );
 
 assertIncludesMilestone(
   new Date(2010, 5, 6),
   new Date(2026, 3, 11, 12, 0, 0),
-  "500 000 000 sekunder gammel i dag!",
+  "500 000 000 sekunder",
 );
 
 assertIncludesMilestone(
   new Date(2010, 5, 2),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Palindrom-sekunder i dag: 500 343 005!",
+  "Palindrom-sekund-dag",
 );
 
 assertIncludesMilestone(
   new Date(2008, 8, 1),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Repdigit-sekunder i dag: 555 555 555!",
+  "Repdigit-sekund-dag",
 );
 
 assertIncludesMilestone(
   new Date(2012, 6, 15),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Fibonacci-sekunder i dag: 433 494 437!",
+  "Fibonacci-sekund-dag",
 );
 
 assertIncludesMilestone(
   new Date(2026, 0, 26),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Palindrom-minutter i dag: 106 601!",
+  "Palindrom-minutt-dag",
 );
 
 assertIncludesMilestone(
   new Date(2026, 0, 23),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Repdigit-minutter i dag: 111 111!",
+  "Repdigit-minutt-dag",
 );
 
 assertIncludesMilestone(
   new Date(2026, 0, 16),
   new Date(2026, 3, 11, 12, 0, 0),
-  "Fibonacci-minutter i dag: 121 393!",
+  "Fibonacci-minutt-dag",
 );
 
 assertIncludesMilestone(
   new Date(2016, 3, 13),
   new Date(2026, 0, 1, 12, 0, 0),
-  "10 romerske republikkår gammel i dag!",
+  "Romersk republikkår-dag",
 );
 
 assertIncludesMilestone(
   new Date(2016, 3, 23),
   new Date(2026, 0, 1, 12, 0, 0),
-  "10 Hijri-år gammel i dag!",
+  "Hijri-år-dag",
 );
 
 assertIncludesMilestone(
   new Date(2016, 1, 22),
   new Date(2026, 0, 1, 12, 0, 0),
-  "10 maya-tun gammel i dag!",
+  "Maya-tun-dag",
 );
 
 assertIncludesMilestone(
   new Date(2018, 10, 18),
   new Date(2026, 0, 1, 12, 0, 0),
-  "10 Tzolk'in-sykluser gammel i dag!",
+  "Tzolk'in-syklus-dag",
 );
 
 assertIncludesMilestone(
   new Date(2023, 6, 15),
   new Date(2026, 3, 11, 12, 0, 0),
-  "100 franske revolusjonsdekader gammel i dag!",
+  "Fransk revolusjonsdekade-dag",
 );
 
 assertIncludesMilestone(
   new Date(2006, 6, 24),
   new Date(2026, 3, 11, 12, 0, 0),
-  "1 maya-katun gammel i dag!",
+  "Maya-katun-dag",
 );
 
 console.log("Personal milestone checks passed.");

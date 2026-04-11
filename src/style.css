@@ -398,9 +398,16 @@ footer {
   font-weight: 600;
 }
 
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
 .browse-all-link {
   display: inline-block;
-  margin-top: 8px;
   font-size: 0.85rem;
   color: var(--color-text-light);
   text-decoration: none;
@@ -444,6 +451,12 @@ footer {
   display: flex;
   flex-direction: column;
   animation: slidePanel 0.3s ease-out;
+}
+
+.age-panel {
+  height: auto;
+  min-height: 0;
+  max-height: 75vh;
 }
 
 @keyframes slidePanel {
@@ -651,6 +664,57 @@ footer {
 
 .browse-row-link:hover {
   background: var(--color-border);
+}
+
+.age-panel-body {
+  padding: 0 20px 24px;
+  overflow-y: auto;
+}
+
+.age-summary-intro {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.age-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.age-summary-item {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.age-summary-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 4px;
+}
+
+.age-summary-value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.age-summary-empty {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* ── Responsive ── */

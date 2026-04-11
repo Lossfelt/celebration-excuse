@@ -84,8 +84,14 @@ function updateBirthdayInputStyle() {
 }
 
 // ── Build age summary card (always shown when birthday is set) ──
-function buildAgeSummary(): Celebration | null {
-  if (!birthday) return null;
+function buildAgeSummaryContent(): string {
+  if (!birthday) {
+    return `
+      <p class="age-summary-empty">
+        Legg inn fødselsdatoen din for å se alderen din i tall.
+      </p>
+    `;
+  }
 
   const today = new Date();
   const diffMs = today.getTime() - birthday.getTime();
@@ -111,15 +117,50 @@ function buildAgeSummary(): Celebration | null {
     years--;
   }
 
-  return {
-    name: "Din alder i tall",
-    description:
-      `${years} år | ${formatNumber(months)} måneder | ${formatNumber(totalWeeks)} uker | ${formatNumber(totalDays)} dager | ${formatNumber(totalHours)} timer | ${formatNumber(totalSeconds)} sekunder` +
-      `<br>${formatBigInt(totalMilliseconds)} millisekunder | ${formatBigInt(totalMicroseconds)} mikrosekunder | ${formatBigInt(totalNanoseconds)} nanosekunder | ${formatBigInt(totalFemtoseconds)} femtosekunder`,
-    category: "personal",
-    type: "personal",
-    icon: "📊",
-  };
+  return `
+    <div class="age-summary-grid">
+      <div class="age-summary-item">
+        <span class="age-summary-label">År</span>
+        <strong class="age-summary-value">${formatNumber(years)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Måneder</span>
+        <strong class="age-summary-value">${formatNumber(months)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Uker</span>
+        <strong class="age-summary-value">${formatNumber(totalWeeks)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Dager</span>
+        <strong class="age-summary-value">${formatNumber(totalDays)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Timer</span>
+        <strong class="age-summary-value">${formatNumber(totalHours)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Sekunder</span>
+        <strong class="age-summary-value">${formatNumber(totalSeconds)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Millisekunder</span>
+        <strong class="age-summary-value">${formatBigInt(totalMilliseconds)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Mikrosekunder</span>
+        <strong class="age-summary-value">${formatBigInt(totalMicroseconds)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Nanosekunder</span>
+        <strong class="age-summary-value">${formatBigInt(totalNanoseconds)}</strong>
+      </div>
+      <div class="age-summary-item">
+        <span class="age-summary-label">Femtosekunder</span>
+        <strong class="age-summary-value">${formatBigInt(totalFemtoseconds)}</strong>
+      </div>
+    </div>
+  `;
 }
 
 // ── Generate a lookup URL for a holiday ──
@@ -167,13 +208,15 @@ function buildCelebrations(): Celebration[] {
         icon: "🎂",
       });
     }
-
-    // Always include age summary as the last personal card
-    const summary = buildAgeSummary();
-    if (summary) result.push(summary);
   }
 
   return result;
+}
+
+function renderAgeSummaryOverlay() {
+  const content = document.getElementById("age-summary-content");
+  if (!content) return;
+  content.innerHTML = buildAgeSummaryContent();
 }
 
 // ── Render ──
@@ -301,18 +344,48 @@ function browseRow(h: DatedHolidayEntry, dateStr: string): string {
     </div>`;
 }
 
+function updateBodyScrollLock() {
+  const hasOpenOverlay = document.querySelector(".browse-overlay.open");
+  document.body.style.overflow = hasOpenOverlay ? "hidden" : "";
+}
+
+function openOverlay(overlayId: string) {
+  const overlay = document.getElementById(overlayId);
+  if (!overlay) return;
+  overlay.classList.add("open");
+  updateBodyScrollLock();
+}
+
+function closeOverlay(overlayId: string) {
+  const overlay = document.getElementById(overlayId);
+  if (!overlay) return;
+  overlay.classList.remove("open");
+  updateBodyScrollLock();
+}
+
 function openBrowseOverlay() {
-  const overlay = document.getElementById("browse-overlay")!;
   allHolidays = getAllHolidays(new Date().getFullYear());
   renderBrowseList();
-  overlay.classList.add("open");
-  document.body.style.overflow = "hidden";
+  openOverlay("browse-overlay");
 }
 
 function closeBrowseOverlay() {
-  const overlay = document.getElementById("browse-overlay")!;
-  overlay.classList.remove("open");
-  document.body.style.overflow = "";
+  closeOverlay("browse-overlay");
+}
+
+function openAgeOverlay() {
+  renderAgeSummaryOverlay();
+  openOverlay("age-overlay");
+}
+
+function closeAgeOverlay() {
+  closeOverlay("age-overlay");
+}
+
+function updateAgeSummaryLinkVisibility() {
+  const ageLink = document.getElementById("age-summary-link");
+  if (!ageLink) return;
+  ageLink.hidden = !birthday;
 }
 
 // ── Init ──
@@ -324,6 +397,7 @@ function init() {
   ) as HTMLInputElement;
   const clearBtn = document.getElementById("clear-birthday") as HTMLButtonElement;
   const filterTabs = document.querySelectorAll<HTMLButtonElement>(".filter-tab");
+  const ageLink = document.getElementById("age-summary-link") as HTMLAnchorElement;
 
   // Set max date to today
   const todayStr = formatDateInputValue(new Date());
@@ -342,6 +416,9 @@ function init() {
     }
   }
 
+  updateAgeSummaryLinkVisibility();
+  renderAgeSummaryOverlay();
+
   // Birthday input
   birthdayInput.addEventListener("change", () => {
     const val = birthdayInput.value;
@@ -352,6 +429,8 @@ function init() {
       clearBtn.hidden = false;
       celebrations = buildCelebrations();
       updateBirthdayInputStyle();
+      updateAgeSummaryLinkVisibility();
+      renderAgeSummaryOverlay();
       render();
       burstConfetti(120);
     }
@@ -365,6 +444,9 @@ function init() {
     clearBtn.hidden = true;
     celebrations = buildCelebrations();
     updateBirthdayInputStyle();
+    updateAgeSummaryLinkVisibility();
+    renderAgeSummaryOverlay();
+    closeAgeOverlay();
     render();
   });
 
@@ -382,6 +464,8 @@ function init() {
   const browseLink = document.getElementById("browse-all-link")!;
   const browseCloseBtn = document.getElementById("browse-close")!;
   const browseOverlay = document.getElementById("browse-overlay")!;
+  const ageCloseBtn = document.getElementById("age-close")!;
+  const ageOverlay = document.getElementById("age-overlay")!;
   const browseTabs = document.querySelectorAll<HTMLButtonElement>(".browse-tab");
 
   browseLink.addEventListener("click", (e) => {
@@ -389,10 +473,21 @@ function init() {
     openBrowseOverlay();
   });
 
+  ageLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!birthday) return;
+    openAgeOverlay();
+  });
+
   browseCloseBtn.addEventListener("click", closeBrowseOverlay);
+  ageCloseBtn.addEventListener("click", closeAgeOverlay);
 
   browseOverlay.addEventListener("click", (e) => {
     if (e.target === browseOverlay) closeBrowseOverlay();
+  });
+
+  ageOverlay.addEventListener("click", (e) => {
+    if (e.target === ageOverlay) closeAgeOverlay();
   });
 
   browseTabs.forEach((tab) => {
@@ -407,6 +502,8 @@ function init() {
   // Initial build
   celebrations = buildCelebrations();
   updateBirthdayInputStyle();
+  updateAgeSummaryLinkVisibility();
+  renderAgeSummaryOverlay();
   render();
 
   // Welcome confetti

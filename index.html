@@ -69,7 +69,10 @@
 
       <footer>
         <p>🎉 Det finnes alltid en grunn til å feire!</p>
-        <a href="#" id="browse-all-link" class="browse-all-link">Se alle høytider i databasen</a>
+        <div class="footer-links">
+          <a href="#" id="browse-all-link" class="browse-all-link">Se alle høytider i databasen</a>
+          <a href="#" id="age-summary-link" class="browse-all-link" hidden>Se din alder i tall</a>
+        </div>
       </footer>
     </div>
 
@@ -89,6 +92,19 @@
           <span id="browse-count" class="browse-count"></span>
         </div>
         <div id="browse-list" class="browse-list"></div>
+      </div>
+    </div>
+
+    <div id="age-overlay" class="browse-overlay">
+      <div class="browse-panel age-panel">
+        <header class="browse-header">
+          <h2 class="browse-title">Din alder i tall</h2>
+          <button id="age-close" class="browse-close" title="Lukk">✕</button>
+        </header>
+        <div class="age-panel-body">
+          <p class="age-summary-intro">Et øyeblikksbilde av alderen din akkurat nå.</p>
+          <div id="age-summary-content"></div>
+        </div>
       </div>
     </div>
 
