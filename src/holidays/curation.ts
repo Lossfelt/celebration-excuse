@@ -3,7 +3,7 @@ import { curateResearchedFixedFunHoliday } from "./researchedFun";
 
 // The original data file mixed well-established observances with a long tail of
 // novelty days. Keep only the fun observances we have explicitly vetted.
-const approvedFixedFunHolidayNames = new Set<string>([
+export const approvedFixedFunHolidayNames = new Set<string>([
   "Science Fiction-dagen",
   "Groundhog Day",
   "Nutella-dagen",

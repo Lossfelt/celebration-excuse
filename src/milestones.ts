@@ -14,6 +14,53 @@ function formatNumber(n: number): string {
   return n.toLocaleString("nb-NO");
 }
 
+function formatBigInt(n: bigint): string {
+  return n.toLocaleString("nb-NO");
+}
+
+function startOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function startOfNextDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+}
+
+function getPossibleAgeRangeDuringToday(
+  birthday: Date,
+  today: Date,
+): { minMs: bigint; maxMs: bigint } {
+  const birthdayStart = startOfDay(birthday).getTime();
+  const birthdayEnd = startOfNextDay(birthday).getTime();
+  const todayStart = startOfDay(today).getTime();
+  const todayEnd = startOfNextDay(today).getTime();
+
+  return {
+    minMs: BigInt(Math.max(0, todayStart - birthdayEnd)),
+    maxMs: BigInt(Math.max(0, todayEnd - birthdayStart)),
+  };
+}
+
+function getRoundBigIntTargetsInRange(min: bigint, max: bigint): bigint[] {
+  if (max < min) return [];
+
+  const targets: bigint[] = [];
+  const multipliers = [1n, 2n, 5n];
+  const maxDigits = max.toString().length;
+
+  for (let exp = 0; exp <= maxDigits; exp++) {
+    const base = 10n ** BigInt(exp);
+    for (const multiplier of multipliers) {
+      const candidate = multiplier * base;
+      if (candidate >= min && candidate <= max) {
+        targets.push(candidate);
+      }
+    }
+  }
+
+  return targets;
+}
+
 // ── Check if a number is a "round" or special number ──
 function isRoundNumber(n: number): boolean {
   if (n <= 0) return false;
@@ -84,6 +131,7 @@ export function getPersonalMilestones(
   const totalHours = Math.floor(diffMs / MS_PER_HOUR);
   const totalDays = Math.floor(diffMs / MS_PER_DAY);
   const totalWeeks = Math.floor(diffMs / MS_PER_WEEK);
+  const possibleAgeRangeToday = getPossibleAgeRangeDuringToday(birthday, today);
 
   // Calculate months and years properly
   let years = today.getFullYear() - birthday.getFullYear();
@@ -152,6 +200,47 @@ export function getPersonalMilestones(
         description: `Du er omtrent ${formatNumber(target)} sekunder gammel i dag (±${Math.round(diff / 3600)} timer)`,
         value: target,
         unit: "sekunder",
+      });
+    }
+  }
+
+  // Under-second milestones based on an unknown birth time during the birthday.
+  // If a round target can be reached at some point today, surface it as "today".
+  const subSecondUnits = [
+    {
+      unit: "millisekunder",
+      perMs: 1n,
+      minimumTarget: 1_000_000_000n,
+    },
+    {
+      unit: "mikrosekunder",
+      perMs: 1_000n,
+      minimumTarget: 1_000_000_000_000n,
+    },
+    {
+      unit: "nanosekunder",
+      perMs: 1_000_000n,
+      minimumTarget: 1_000_000_000_000_000n,
+    },
+    {
+      unit: "femtosekunder",
+      perMs: 1_000_000_000_000n,
+      minimumTarget: 1_000_000_000_000_000_000_000n,
+    },
+  ] as const;
+
+  for (const { unit, perMs, minimumTarget } of subSecondUnits) {
+    const minTarget = possibleAgeRangeToday.minMs * perMs;
+    const maxTarget = possibleAgeRangeToday.maxMs * perMs;
+    const relevantMin = minTarget > minimumTarget ? minTarget : minimumTarget;
+    const targets = getRoundBigIntTargetsInRange(relevantMin, maxTarget);
+
+    for (const target of targets) {
+      milestones.push({
+        name: `${formatBigInt(target)} ${unit} gammel i dag!`,
+        description: `Du blir ${formatBigInt(target)} ${unit} gammel en gang i løpet av dagen, avhengig av når på bursdagen du ble født.`,
+        value: target,
+        unit,
       });
     }
   }

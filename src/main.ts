@@ -41,6 +41,10 @@ function formatNumber(n: number): string {
   return n.toLocaleString("nb-NO");
 }
 
+function formatBigInt(n: bigint): string {
+  return n.toLocaleString("nb-NO");
+}
+
 function formatDateInputValue(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -89,6 +93,10 @@ function buildAgeSummary(): Celebration | null {
   const totalWeeks = Math.floor(totalDays / 7);
   const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
   const totalSeconds = Math.floor(diffMs / 1000);
+  const totalMilliseconds = BigInt(diffMs);
+  const totalMicroseconds = totalMilliseconds * 1_000n;
+  const totalNanoseconds = totalMilliseconds * 1_000_000n;
+  const totalFemtoseconds = totalMilliseconds * 1_000_000_000_000n;
 
   let years = today.getFullYear() - birthday.getFullYear();
   let months =
@@ -106,7 +114,8 @@ function buildAgeSummary(): Celebration | null {
   return {
     name: "Din alder i tall",
     description:
-      `${years} år | ${formatNumber(months)} måneder | ${formatNumber(totalWeeks)} uker | ${formatNumber(totalDays)} dager | ${formatNumber(totalHours)} timer | ${formatNumber(totalSeconds)} sekunder`,
+      `${years} år | ${formatNumber(months)} måneder | ${formatNumber(totalWeeks)} uker | ${formatNumber(totalDays)} dager | ${formatNumber(totalHours)} timer | ${formatNumber(totalSeconds)} sekunder` +
+      `<br>${formatBigInt(totalMilliseconds)} millisekunder | ${formatBigInt(totalMicroseconds)} mikrosekunder | ${formatBigInt(totalNanoseconds)} nanosekunder | ${formatBigInt(totalFemtoseconds)} femtosekunder`,
     category: "personal",
     type: "personal",
     icon: "📊",

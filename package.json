@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "check:holidays": "node scripts/check-holiday-data.mjs",
+    "check:holidays": "node --experimental-strip-types scripts/check-holiday-data.mjs",
+    "check:sources": "node --experimental-strip-types scripts/check-holiday-sources.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

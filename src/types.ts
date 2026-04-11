@@ -15,7 +15,7 @@ export interface Holiday {
 export interface PersonalMilestone {
   name: string;
   description: string;
-  value: number;
+  value: number | bigint;
   unit: string;
 }
 
