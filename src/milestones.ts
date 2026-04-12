@@ -662,14 +662,6 @@ export function getPersonalMilestones(
     1,
     [
       {
-        idPrefix: "palindrome",
-        predicate: isPalindrome,
-        name: () => "Palindrom-sekund-dag",
-        description: (value) => `Du passerer ${formatNumber(value)} sekunder i dag, og tallet leses likt begge veier.`,
-        unit: "sekunder (palindrom)",
-        priority: 59,
-      },
-      {
         idPrefix: "repdigit",
         predicate: isRepdigit,
         name: () => "Repdigit-sekund-dag",
@@ -696,14 +688,6 @@ export function getPersonalMilestones(
     10_000,
     1,
     [
-      {
-        idPrefix: "palindrome",
-        predicate: isPalindrome,
-        name: () => "Palindrom-minutt-dag",
-        description: (value) => `Du passerer ${formatNumber(value)} minutter i dag, og tallet leses likt begge veier.`,
-        unit: "minutter (palindrom)",
-        priority: 56,
-      },
       {
         idPrefix: "repdigit",
         predicate: isRepdigit,

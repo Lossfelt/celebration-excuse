@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "analyze:milestones": "node --experimental-strip-types scripts/analyze-personal-milestone-frequency.mjs",
     "check:holidays": "node --experimental-strip-types scripts/check-holiday-data.mjs",
     "check:milestones": "node --experimental-strip-types scripts/check-personal-milestones.mjs",
     "check:sources": "node --experimental-strip-types scripts/check-holiday-sources.mjs",

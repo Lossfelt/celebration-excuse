@@ -43,12 +43,6 @@ assertIncludesMilestone(
 );
 
 assertIncludesMilestone(
-  new Date(2010, 5, 2),
-  new Date(2026, 3, 11, 12, 0, 0),
-  "Palindrom-sekund-dag",
-);
-
-assertIncludesMilestone(
   new Date(2008, 8, 1),
   new Date(2026, 3, 11, 12, 0, 0),
   "Repdigit-sekund-dag",
@@ -58,12 +52,6 @@ assertIncludesMilestone(
   new Date(2012, 6, 15),
   new Date(2026, 3, 11, 12, 0, 0),
   "Fibonacci-sekund-dag",
-);
-
-assertIncludesMilestone(
-  new Date(2026, 0, 26),
-  new Date(2026, 3, 11, 12, 0, 0),
-  "Palindrom-minutt-dag",
 );
 
 assertIncludesMilestone(
