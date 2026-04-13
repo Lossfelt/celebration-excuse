@@ -1,0 +1,16 @@
+export const HERO_QUOTES = [
+  "On this, the day of my daughter's friend's cousin's Quinceañera?",
+  "I didn't choose the anniversary life. The anniversary life chose today.",
+  "A day like this comes only once every deeply niche interval.",
+  "Frankly, it would be disrespectful not to mark the occasion.",
+  "There are dates, and then there are occasions.",
+  "I refuse to let a perfectly good anniversary go emotionally unsupported.",
+  "The calendar has spoken, and I choose to be receptive.",
+  "This is exactly the sort of day that calls for unnecessary grandeur.",
+  "A lesser household might ignore this milestone. We are not a lesser household.",
+  "Even the passage of time occasionally deserves a standing ovation.",
+  "This feels like the kind of day that should involve formalwear or pastries.",
+  "I sense an occasion of great specificity and moderate importance.",
+  "Do you really want to be remembered as one who didn't celebrate Orthodox Halloween?",
+  "The milestone may be obscure, but the party will not.",
+] as const;

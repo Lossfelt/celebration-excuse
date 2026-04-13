@@ -2,6 +2,7 @@ import { getHolidaysForDate, getAllHolidays } from "./holidays";
 import type { DatedHolidayEntry } from "./holidays";
 import { getPersonalMilestones } from "./milestones";
 import { initConfetti, burstConfetti } from "./confetti";
+import { HERO_QUOTES } from "./quotes";
 import type { Celebration, Holiday } from "./types";
 import "./style.css";
 
@@ -9,11 +10,6 @@ import "./style.css";
 let currentFilter: "all" | "personal" | "global" = "all";
 let birthday: Date | null = null;
 let celebrations: Celebration[] = [];
-const HERO_QUOTES = [
-  "On this, the day of my daughter's friend's cousin's Quinceañera?",
-  "I didn't choose the anniversary life. The anniversary life chose today.",
-  "A day like this comes only once every deeply niche interval.",
-] as const;
 
 // ── Icon mapping ──
 function getIcon(type: string, category: string): string {
