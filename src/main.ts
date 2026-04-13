@@ -311,7 +311,7 @@ function renderBrowseList() {
       if (!entries) continue;
       entries.sort((a, b) => a.day - b.day);
       html += `<h3 class="browse-group-heading">${MONTH_NAMES[m]}</h3>`;
-      html += entries.map((h) => browseRow(h, `${h.day}. ${MONTH_NAMES[h.month].slice(0, 3).toLowerCase()}`)).join("");
+      html += entries.map((h) => browseRow(h, `${h.day}. ${MONTH_NAMES[h.month].slice(0, 3).toLowerCase()}`, true)).join("");
     }
   } else if (browseSort === "alpha") {
     const sorted = [...allHolidays].sort((a, b) => a.name.localeCompare(b.name, "nb"));
@@ -340,10 +340,39 @@ function renderBrowseList() {
   list.innerHTML = html;
 }
 
-function browseRow(h: DatedHolidayEntry, dateStr: string): string {
+function getDateSortAnchorId(): string | null {
+  if (browseSort !== "date") return null;
+
+  const today = new Date();
+  const todayKey = (today.getMonth() + 1) * 100 + today.getDate();
+  const sorted = [...allHolidays].sort((a, b) => (a.month * 100 + a.day) - (b.month * 100 + b.day));
+  const anchor = sorted.find((holiday) => holiday.month * 100 + holiday.day >= todayKey) ?? sorted[0];
+
+  if (!anchor) return null;
+  return `${anchor.month}-${anchor.day}-${anchor.name}`;
+}
+
+function scrollBrowseListToCurrentDate() {
+  if (browseSort !== "date") return;
+
+  const anchorId = getDateSortAnchorId();
+  if (!anchorId) return;
+
+  requestAnimationFrame(() => {
+    const anchor = document.querySelector<HTMLElement>(`[data-browse-anchor="${anchorId}"]`);
+    anchor?.scrollIntoView({ block: "center" });
+  });
+}
+
+function browseRow(h: DatedHolidayEntry, dateStr: string, includeDateAnchor = false): string {
   const link = getHolidayLink(h);
+  const anchorId = includeDateAnchor ? getDateSortAnchorId() : null;
+  const isAnchor = anchorId === `${h.month}-${h.day}-${h.name}`;
+  const anchorAttr = isAnchor ? ` data-browse-anchor="${anchorId}"` : "";
+  const anchorClass = isAnchor ? " browse-row-anchor" : "";
+
   return `
-    <div class="browse-row">
+    <div class="browse-row${anchorClass}"${anchorAttr}>
       <span class="browse-row-icon">${getIcon(h.type, "global")}</span>
       <div class="browse-row-content">
         <span class="browse-row-name">${h.name}</span>
@@ -376,6 +405,7 @@ function openBrowseOverlay() {
   allHolidays = getAllHolidays(new Date().getFullYear());
   renderBrowseList();
   openOverlay("browse-overlay");
+  scrollBrowseListToCurrentDate();
 }
 
 function closeBrowseOverlay() {
@@ -506,6 +536,7 @@ function init() {
       tab.classList.add("active");
       browseSort = tab.dataset.sort as "date" | "alpha" | "type";
       renderBrowseList();
+      scrollBrowseListToCurrentDate();
     });
   });
 
