@@ -9,6 +9,11 @@ import "./style.css";
 let currentFilter: "all" | "personal" | "global" = "all";
 let birthday: Date | null = null;
 let celebrations: Celebration[] = [];
+const HERO_QUOTES = [
+  "On this, the day of my daughter's friend's cousin's Quinceañera?",
+  "I didn't choose the anniversary life. The anniversary life chose today.",
+  "A day like this comes only once every deeply niche interval.",
+] as const;
 
 // ── Icon mapping ──
 function getIcon(type: string, category: string): string {
@@ -81,6 +86,14 @@ function updateBirthdayInputStyle() {
   } else {
     input.classList.remove("registered");
   }
+}
+
+function renderHeroQuote() {
+  const quoteElement = document.getElementById("hero-quote-text");
+  if (!quoteElement) return;
+
+  const randomIndex = Math.floor(Math.random() * HERO_QUOTES.length);
+  quoteElement.textContent = HERO_QUOTES[randomIndex];
 }
 
 // ── Build age summary card (always shown when birthday is set) ──
@@ -391,6 +404,7 @@ function updateAgeSummaryLinkVisibility() {
 // ── Init ──
 function init() {
   initConfetti("confetti-canvas");
+  renderHeroQuote();
 
   const birthdayInput = document.getElementById(
     "birthday-input"

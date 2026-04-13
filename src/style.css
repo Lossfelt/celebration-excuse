@@ -78,6 +78,31 @@ body {
   margin-bottom: 8px;
 }
 
+.hero-quote {
+  max-width: 34rem;
+  margin: 0 auto 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 217, 61, 0.14));
+  border: 1px solid rgba(155, 93, 229, 0.14);
+  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.06);
+}
+
+.hero-quote-text {
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(45, 52, 54, 0.72);
+}
+
+.hero-quote-text::before {
+  content: "“";
+}
+
+.hero-quote-text::after {
+  content: "”";
+}
+
 .subtitle {
   font-size: 1.1rem;
   color: var(--color-text-light);
@@ -721,6 +746,10 @@ footer {
 @media (min-width: 480px) {
   .title {
     font-size: 3rem;
+  }
+
+  .hero-quote-text {
+    font-size: 1rem;
   }
 
   #app {
